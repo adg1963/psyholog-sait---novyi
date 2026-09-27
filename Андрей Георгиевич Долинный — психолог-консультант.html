@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<!-- saved from url=(0066)file:///C:/Users/%D0%90%D0%B4%D0%BC%D0%B8%D0%BD/Desktop/index.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Андрей Георгиевич Долинный — психолог-консультант</title>
+<style>
+  :root {
+    --green-dark: #2d4a22; --green-mid: #4a7c3f; --green-light: #8fbc6b;
+    --green-pale: #e8f0e0; --gold: #c9a96e; --cream: #f7f9f4; --text: #2c3328;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--cream); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+  @keyframes pulseGlow { 0%,100% { box-shadow: 0 0 0 0 rgba(143,188,107,0.5); } 50% { box-shadow: 0 0 30px 10px rgba(143,188,107,0.2); } }
+  .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
+  .reveal.active { opacity: 1; transform: translateY(0); }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(45,74,34,0.92); backdrop-filter: blur(12px); padding: 14px 30px; display: flex; justify-content: space-between; align-items: center; }
+  nav .logo { color: #fff; font-size: 22px; font-weight: bold; letter-spacing: 1px; }
+  nav .logo span { color: var(--green-light); }
+  nav ul { display: flex; gap: 26px; list-style: none; }
+  nav ul a { color: #dfe8d6; text-decoration: none; font-size: 16px; position: relative; transition: color 0.3s; }
+  nav ul a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--green-light); transition: width 0.3s; }
+  nav ul a:hover { color: #fff; }
+  nav ul a:hover::after { width: 100%; }
+  .burger { display: none; color: #fff; font-size: 28px; cursor: pointer; }
+  header { min-height: 100vh; display: flex; align-items: center; background: linear-gradient(135deg, #1f3318 0%, #2d4a22 40%, #4a7c3f 100%); position: relative; overflow: hidden; padding: 100px 30px 60px; }
+  header::before { content: ''; position: absolute; top: -50%; right: -20%; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(143,188,107,0.25), transparent 70%); animation: float 8s ease-in-out infinite; }
+  .hero-inner { max-width: 1200px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: start; position: relative; z-index: 2; }
+  .hero-text h1 { color: #fff; font-size: 46px; line-height: 1.25; margin-bottom: 22px; animation: fadeUp 1s ease both; }
+  .hero-text .slogan { color: var(--green-light); font-size: 22px; font-style: italic; border-left: 4px solid var(--gold); padding-left: 18px; margin-bottom: 30px; animation: fadeUp 1s ease 0.2s both; }
+  .hero-text p { color: #d4e0c8; font-size: 18px; margin-bottom: 34px; max-width: 560px; animation: fadeUp 1s ease 0.4s both; }
+  .promo-badge { display: inline-block; background: var(--gold); color: #2d4a22; padding: 10px 22px; border-radius: 30px; font-weight: bold; font-size: 16px; margin-bottom: 26px; animation: fadeUp 1s ease 0.3s both, pulseGlow 3s infinite; }
+  .btn-main { display: inline-block; background: linear-gradient(90deg, var(--green-light), var(--green-mid)); color: #fff; padding: 18px 44px; border-radius: 50px; font-size: 19px; font-weight: bold; text-decoration: none; border: none; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; animation: fadeUp 1s ease 0.6s both; box-shadow: 0 8px 25px rgba(0,0,0,0.25); }
+  .btn-main:hover { transform: translateY(-4px) scale(1.04); box-shadow: 0 14px 35px rgba(143,188,107,0.5); }
+  .hero-photo { position: relative; animation: fadeUp 1s ease 0.5s both; display: flex; justify-content: center; }
+  .hero-photo img { width: 100%; max-width: 400px; border-radius: 20px; border: 5px solid rgba(143,188,107,0.4); box-shadow: 0 20px 50px rgba(0,0,0,0.4); transition: transform 0.5s; }
+  .hero-photo img:hover { transform: scale(1.03) rotate(-1deg); }
+  
+  .container { max-width: 1150px; margin: 0 auto; }
+  .section-title { font-size: 38px; color: var(--green-dark); text-align: center; margin-bottom: 16px; position: relative; display: inline-block; width: 100%; }
+  .section-title::after { content: ''; display: block; width: 70px; height: 4px; background: var(--gold); margin: 16px auto 0; border-radius: 2px; }
+  .section-sub { text-align: center; color: #6b7a60; font-size: 18px; margin-bottom: 55px; }
+  #about { background: #fff; }
+  .about-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 50px; align-items: center; }
+  .about-photo { background: linear-gradient(135deg, var(--green-mid), var(--green-light)); border-radius: 20px; padding: 30px; text-align: center; color: #fff; position: relative; overflow: hidden; }
+  .about-photo::before { content: 'Ψ'; position: absolute; font-size: 220px; opacity: 0.1; top: -40px; right: -20px; font-weight: bold; }
+  .about-photo .regalia { font-size: 20px; line-height: 1.9; position: relative; z-index: 1; }
+  .about-photo .regalia strong { display: block; font-size: 24px; margin-bottom: 10px; }
+  .about-text h3 { font-size: 26px; color: var(--green-dark); margin-bottom: 18px; }
+  .about-text p { font-size: 17px; margin-bottom: 16px; }
+  .about-text ul { list-style: none; margin-top: 20px; }
+  .about-text li { padding-left: 34px; position: relative; margin-bottom: 12px; font-size: 17px; }
+  .about-text li::before { content: '✓'; position: absolute; left: 0; top: 0; color: var(--green-mid); font-weight: bold; font-size: 20px; }
+  #services { background: var(--green-pale); }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .service-card { background: #fff; border-radius: 16px; padding: 32px 26px; box-shadow: 0 6px 24px rgba(45,74,34,0.08); transition: transform 0.35s, box-shadow 0.35s; border-top: 4px solid var(--green-light); cursor: pointer; }
+  .service-card:hover { transform: translateY(-10px); box-shadow: 0 18px 45px rgba(45,74,34,0.18); }
+  .service-card .icon { font-size: 42px; margin-bottom: 16px; }
+  .service-card h4 { font-size: 20px; color: var(--green-dark); margin-bottom: 12px; }
+  .service-card p { font-size: 15px; color: #5a6650; margin-bottom: 16px; }
+  .service-card .price { color: var(--gold); font-weight: bold; font-size: 17px; }
+  .booking { margin-top: 60px; background: #fff; border-radius: 20px; padding: 44px; box-shadow: 0 10px 40px rgba(45,74,34,0.1); }
+  .booking h3 { font-size: 28px; color: var(--green-dark); text-align: center; margin-bottom: 30px; }
+  .booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; font-size: 15px; color: var(--green-dark); margin-bottom: 6px; font-weight: 600; }
+  .form-group input, .form-group select { width: 100%; padding: 13px 15px; border: 2px solid #dce5d0; border-radius: 10px; font-size: 16px; font-family: inherit; transition: border 0.3s, box-shadow 0.3s; }
+  .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--green-light); box-shadow: 0 0 0 4px rgba(143,188,107,0.15); }
+  .btn-book { width: 100%; background: linear-gradient(90deg, var(--green-mid), var(--green-light)); color: #fff; padding: 16px; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; }
+  .btn-book:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(143,188,107,0.45); }
+  .calendar { background: var(--green-pale); border-radius: 14px; padding: 24px; }
+  .calendar h4 { text-align: center; color: var(--green-dark); margin-bottom: 16px; font-size: 18px; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; text-align: center; }
+  .cal-grid .day-name { font-size: 13px; color: #8a9680; font-weight: bold; padding: 6px 0; }
+  .cal-grid .day { padding: 10px 0; border-radius: 8px; cursor: pointer; font-size: 15px; transition: all 0.2s; background: #fff; }
+  .cal-grid .day:hover { background: var(--green-light); color: #fff; transform: scale(1.1); }
+  .cal-grid .day.active { background: var(--green-mid); color: #fff; font-weight: bold; }
+  .cal-grid .day.empty { background: transparent; cursor: default; }
+  .cal-grid .day.empty:hover { transform: none; background: transparent; }
+  .booking-success { display: none; text-align: center; color: var(--green-dark); font-size: 18px; padding: 20px; background: var(--green-pale); border-radius: 12px; margin-top: 20px; animation: fadeUp 0.5s ease; }
+  #reviews { background: #fff; }
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .review-card { background: var(--cream); border-radius: 16px; padding: 30px; border-left: 5px solid var(--green-light); transition: transform 0.35s, box-shadow 0.35s; }
+  .review-card:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(45,74,34,0.12); }
+  .review-card .stars { color: var(--gold); font-size: 20px; margin-bottom: 12px; }
+  .review-card p { font-style: italic; color: #4a5540; margin-bottom: 16px; font-size: 16px; }
+  .review-card .author { font-weight: bold; color: var(--green-dark); font-size: 15px; }
+  .results { margin-top: 60px; background: linear-gradient(135deg, var(--green-dark), var(--green-mid)); border-radius: 20px; padding: 50px 40px; color: #fff; text-align: center; }
+  .results h3 { font-size: 30px; margin-bottom: 30px; }
+  .results-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .result-item .num { font-size: 42px; font-weight: bold; color: var(--green-light); }
+  .result-item .label { font-size: 15px; color: #d4e0c8; margin-top: 6px; }
+  footer { background: var(--green-dark); color: #c8d8b8; text-align: center; padding: 40px 30px; font-size: 15px; }
+  footer a { color: var(--green-light); text-decoration: none; }
+  footer .contacts { margin-bottom: 16px; }
+  footer .contacts span { margin: 0 12px; }
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+    .hero-text p { margin-left: auto; margin-right: auto; }
+    .hero-photo { order: -1; }
+    .about-grid { grid-template-columns: 1fr; }
+    .services-grid, .reviews-grid { grid-template-columns: 1fr; }
+    .booking-grid { grid-template-columns: 1fr; }
+    .results-grid { grid-template-columns: repeat(2, 1fr); }
+    nav ul { display: none; }
+    nav ul.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--green-dark); padding: 20px; }
+    .burger { display: block; }
+    .hero-text h1 { font-size: 32px; }
+    .section-title { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">Ψ <span>Долинный</span></div>
+  <div class="burger" onclick="document.querySelector(&#39;nav ul&#39;).classList.toggle(&#39;open&#39;)">☰</div>
+  <ul>
+    <li><a href="file:///C:/Users/%D0%90%D0%B4%D0%BC%D0%B8%D0%BD/Desktop/index.html#about">Обо мне</a></li>
+    <li><a href="file:///C:/Users/%D0%90%D0%B4%D0%BC%D0%B8%D0%BD/Desktop/index.html#services">Услуги</a></li>
+    <li><a href="file:///C:/Users/%D0%90%D0%B4%D0%BC%D0%B8%D0%BD/Desktop/index.html#reviews">Отзывы</a></li>
+    <li><a href="file:///C:/Users/%D0%90%D0%B4%D0%BC%D0%B8%D0%BD/Desktop/index.html#booking">Записаться</a></li>
+  </ul>
+</nav>
+<header>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="promo-badge">Бесплатно</div>
+      <h1>Психологическое консультирование ветеранов боевых действий и членов их семей</h1>
+      <p class="slogan">Держим внутренний строй, когда всё вокруг меняется</p>
+      <p>Дистанционно. Бесплатно. Конфиденциально. Помогаю восстановить внутреннюю опору, наладить отношения в семье и справиться с последствиями стресса.</p>
+      <a href="file:///C:/Users/%D0%90%D0%B4%D0%BC%D0%B8%D0%BD/Desktop/index.html#booking" class="btn-main">Записаться на консультацию</a>
+    </div>
+    <div class="hero-photo">
+            <img src="file:///C:/Users/%D0%90%D0%B4%D0%BC%D0%B8%D0%BD/Desktop/photo.jpg.jpg" alt="Андрей Георгиевич Долинный">
+    </div>
+  </div>
+</header>
+<section id="about">
+  <div class="container">
+    <h2 class="section-title reveal">Обо мне</h2>
+    <p class="section-sub reveal">Андрей Георгиевич Долинный — социопсихолог-консультант</p>
+    <div class="about-grid">
+      <div class="about-photo reveal">
+        <div class="regalia">
+          <strong>Андрей Георгиевич Долинный</strong>
+          Социопсихолог-консультант<br>
+          Эксперт в области военной и политической психологии<br>
+          Ветеран<br>
+          Подполковник погранслужбы ФСБ запаса
+        </div>
+      </div>
+      <div class="about-text reveal">
+        <h3>Профессиональная помощь тем, кто защищал страну</h3>
+        <p>За годы службы и практики я хорошо знаю, с какими внутренними трудностями сталкиваются люди, прошедшие через боевые действия, и их близкие. Мой подход — спокойный, уважительный и практичный: без лишних слов, с опорой на реальный опыт и профессиональные методики.</p>
+        <p>Работаю с ветеранами боевых действий и членами их семей. Помогаю:</p>
+        <ul>
+          <li>восстановить внутреннюю опору и уверенность</li>
+          <li>наладить отношения в семье</li>
+          <li>справиться с тревогой и последствиями стресса</li>
+          <li>найти силы двигаться дальше</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="services">
+  <div class="container">
+    <h2 class="section-title reveal">Услуги</h2>
+    <p class="section-sub reveal">Выберите формат — и запишитесь онлайн</p>
+    <div class="services-grid">
+      <div class="service-card reveal"><div class="icon">🧠</div><h4>Индивидуальная консультация</h4><p>Работа с тревогой, стрессом, последствиями боевого опыта. Доверительный разговор.</p><div class="price">Бесплатно</div></div>
+      <div class="service-card reveal"><div class="icon">👨‍👩‍👧</div><h4>Семейное консультирование</h4><p>Помощь в налаживании отношений, взаимопонимания и поддержки в семье.</p><div class="price">Бесплатно</div></div>
+      <div class="service-card reveal"><div class="icon">🛡️</div><h4>Группа поддержки</h4><p>Работа с ветеранами в группе: обмен опытом, поддержка, совместное преодоление.</p><div class="price">Бесплатно</div></div>
+    </div>
+    <div class="booking" id="booking">
+      <h3>Онлайн-запись на консультацию</h3>
+      <div class="booking-grid">
+        <div>
+          <form id="bookingForm" onsubmit="return bookService(event)">
+            <div class="form-group"><label>Ваше имя</label><input type="text" id="clientName" placeholder="Как к вам обращаться" required=""></div>
+            <div class="form-group"><label>Телефон или e-mail</label><input type="text" id="clientContact" placeholder="+7 ... или почта" required=""></div>
+            <div class="form-group"><label>Услуга</label><select id="serviceType"><option>Индивидуальная консультация</option><option>Семейное консультирование</option><option>Группа поддержки</option></select></div>
+            <div class="form-group"><label>Комментарий (необязательно)</label><input type="text" id="comment" placeholder="Кратко о запросе"></div>
+            <button type="submit" class="btn-book">Записаться</button>
+          </form>
+          <div class="booking-success" id="successMsg">✅ Спасибо! Ваша заявка принята. Я свяжусь с вами в ближайшее время.</div>
+        </div>
+        <div class="calendar"><h4>Выберите дату</h4><div class="cal-grid" id="calendar"><div class="day-name">Пн</div><div class="day-name">Вт</div><div class="day-name">Ср</div><div class="day-name">Чт</div><div class="day-name">Пт</div><div class="day-name">Сб</div><div class="day-name">Вс</div><div class="day empty"></div><div class="day empty"></div><div class="day empty"></div><div class="day empty"></div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="reviews">
+  <div class="container">
+    <h2 class="section-title reveal">Отзывы клиентов</h2>
+    <p class="section-sub reveal">Реальные истории — от А до Я</p>
+    <div class="reviews-grid">
+      <div class="review-card reveal"><div class="stars">★★★★★</div><p>«Андрей Георгиевич помог мне вернуться к нормальной жизни после службы. Без лишних слов, по делу. Огромная благодарность».</p><div class="author">— Алексей, ветеран</div></div>
+      <div class="review-card reveal"><div class="stars">★★★★★</div><p>«Муж стал спокойнее, мы снова разговариваем. Спасибо за помощь нашей семье. Это бесценно».</p><div class="author">— Марина, жена ветерана</div></div>
+      <div class="review-card reveal"><div class="stars">★★★★★</div><p>«Профессионал с пониманием. Не давит, слушает, помогает найти опору. Рекомендую всем».</p><div class="author">— Дмитрий, ветеран</div></div>
+    </div>
+    <div class="results reveal">
+      <h3>Результаты от А до Я</h3>
+      <div class="results-grid">
+        <div class="result-item"><div class="num" data-target="150">0</div><div class="label">консультаций</div></div>
+        <div class="result-item"><div class="num" data-target="98">0</div><div class="label">% довольны</div></div>
+        <div class="result-item"><div class="num" data-target="40">0</div><div class="label">семей восстановлено</div></div>
+        <div class="result-item"><div class="num" data-target="24">0</div><div class="label">года опыта</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="contacts">
+    <span>📞 <a href="tel:+79803253275">+7 980 325-32-75</a></span>
+    <span>✉️ <a href="mailto:doliandrej@yandex.ru">doliandrej@yandex.ru</a></span>
+  </div>
+  <div>Андрей Георгиевич Долинный · социопсихолог-консультант · 2026</div>
+</footer>
+<script>
+  const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); }); }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  const calendar = document.getElementById('calendar');
+  const days = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+  days.forEach(d => { const el = document.createElement('div'); el.className='day-name'; el.textContent=d; calendar.appendChild(el); });
+  for (let i = 0; i < 4; i++) { const el = document.createElement('div'); el.className='day empty'; calendar.appendChild(el); }
+  for (let i = 1; i <= 30; i++) { const el = document.createElement('div'); el.className = 'day'; el.textContent = i; el.onclick = () => { document.querySelectorAll('.day').forEach(d=>d.classList.remove('active')); el.classList.add('active'); }; calendar.appendChild(el); }
+  function bookService(e) { e.preventDefault(); const date = document.querySelector('.day.active'); if (!date) { alert('Пожалуйста, выберите дату в календаре.'); return false; } document.getElementById('bookingForm').style.display = 'none'; document.getElementById('successMsg').style.display = 'block'; return false; }
+  const numObserver = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { const el = e.target; const target = +el.dataset.target; let cur = 0; const step = Math.ceil(target / 50); const timer = setInterval(() => { cur += step; if (cur >= target) { cur = target; clearInterval(timer); } el.textContent = cur; }, 30); numObserver.unobserve(el); } }); }, { threshold: 0.5 });
+  document.querySelectorAll('.num').forEach(el => numObserver.observe(el));
+</script>
+
+=</body></html>
