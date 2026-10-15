@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Админ-панель — Психолог Долинный</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --green-dark: #2d4a22; --green-mid: #4a7c3f; --green-light: #8fbc6b;
+    --green-pale: #e8f0e0; --gold: #c9a96e; --cream: #f7f9f4; --text: #2c3328;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--cream); color: var(--text); line-height: 1.6; min-height: 100vh; }
+
+  /* === Экран входа === */
+  .login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 30px; background: linear-gradient(135deg, #1f3318 0%, #2d4a22 40%, #4a7c3f 100%); }
+  .login-box { background: #fff; border-radius: 20px; padding: 45px 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 100%; max-width: 420px; }
+  .login-box h1 { color: var(--green-dark); font-size: 26px; margin-bottom: 8px; text-align: center; }
+  .login-box .subtitle { text-align: center; color: #6b7a60; font-size: 15px; margin-bottom: 30px; }
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; font-size: 14px; color: var(--green-dark); margin-bottom: 6px; font-weight: 600; }
+  .form-group input { width: 100%; padding: 13px 15px; border: 2px solid #dce5d0; border-radius: 10px; font-size: 16px; font-family: inherit; transition: border 0.3s; }
+  .form-group input:focus { outline: none; border-color: var(--green-light); box-shadow: 0 0 0 4px rgba(143,188,107,0.15); }
+  .btn-primary { width: 100%; background: linear-gradient(90deg, var(--green-mid), var(--green-light)); color: #fff; padding: 15px; border: none; border-radius: 10px; font-size: 17px; font-weight: bold; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(143,188,107,0.45); }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .error-msg { background: #fce8e8; color: #a33; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; display: none; }
+  .error-msg.show { display: block; }
+  .back-link { display: block; text-align: center; margin-top: 20px; color: var(--green-mid); text-decoration: none; font-size: 14px; }
+  .back-link:hover { text-decoration: underline; }
+
+  /* === Панель управления === */
+  .panel { display: none; min-height: 100vh; }
+  .panel.active { display: block; }
+  .panel-header { background: var(--green-dark); color: #fff; padding: 16px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+  .panel-header h1 { font-size: 20px; }
+  .panel-header .user-info { font-size: 14px; color: #c8d8b8; }
+  .btn-logout { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 14px; margin-left: 16px; transition: background 0.2s; }
+  .btn-logout:hover { background: rgba(255,255,255,0.25); }
+  .panel-container { max-width: 1000px; margin: 0 auto; padding: 30px 20px; }
+  .section { background: #fff; border-radius: 16px; padding: 30px; box-shadow: 0 6px 24px rgba(45,74,34,0.08); margin-bottom: 26px; }
+  .section h2 { color: var(--green-dark); font-size: 22px; margin-bottom: 20px; border-bottom: 3px solid var(--green-pale); padding-bottom: 12px; }
+  .prompt-item { background: var(--green-pale); border-radius: 12px; padding: 18px; margin-bottom: 14px; border-left: 5px solid var(--green-light); }
+  .prompt-item.active { border-left-color: var(--gold); background: #fdf7e8; }
+  .prompt-item h3 { color: var(--green-dark); font-size: 17px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+  .prompt-item h3 .badge { background: var(--gold); color: #fff; font-size: 12px; padding: 3px 10px; border-radius: 20px; font-weight: normal; }
+  .prompt-item .content { font-size: 14px; color: #4a5540; white-space: pre-wrap; margin-bottom: 12px; max-height: 150px; overflow-y: auto; background: rgba(255,255,255,0.6); padding: 10px; border-radius: 8px; }
+  .prompt-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn-sm { padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: transform 0.15s; }
+  .btn-sm:hover { transform: translateY(-1px); }
+  .btn-activate { background: var(--green-mid); color: #fff; }
+  .btn-edit { background: var(--gold); color: #fff; }
+  .btn-delete { background: #d66; color: #fff; }
+  .btn-add { background: var(--green-dark); color: #fff; padding: 12px 24px; font-size: 15px; }
+  .form-group textarea { width: 100%; padding: 12px 15px; border: 2px solid #dce5d0; border-radius: 10px; font-size: 15px; font-family: inherit; min-height: 120px; resize: vertical; transition: border 0.3s; }
+  .form-group textarea:focus { outline: none; border-color: var(--green-light); box-shadow: 0 0 0 4px rgba(143,188,107,0.15); }
+  .empty-msg { text-align: center; color: #8a9680; padding: 30px; font-style: italic; }
+  .toast { position: fixed; bottom: 30px; right: 30px; background: var(--green-dark); color: #fff; padding: 14px 24px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); opacity: 0; transform: translateY(20px); transition: all 0.3s; z-index: 200; }
+  .toast.show { opacity: 1; transform: translateY(0); }
+  .loading { text-align: center; padding: 20px; color: var(--green-mid); }
+  @media (max-width: 600px) {
+    .panel-header { flex-direction: column; gap: 10px; align-items: flex-start; }
+    .panel-header .user-info { display: flex; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== Экран входа ===== -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <h1>🔐 Вход в админ-панель</h1>
+    <p class="subtitle">Сайт психолога А. Г. Долинного</p>
+    <div class="error-msg" id="loginError"></div>
+    <form onsubmit="return doLogin(event)">
+      <div class="form-group">
+        <label>Логин</label>
+        <input type="text" id="loginInput" placeholder="Введите логин" required autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label>Пароль</label>
+        <input type="password" id="passwordInput" placeholder="Введите пароль" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn-primary" id="loginBtn">Войти</button>
+    </form>
+    <a href="index.html" class="back-link">← Вернуться на сайт</a>
+  </div>
+</div>
+
+<!-- ===== Панель управления ===== -->
+<div class="panel" id="panelScreen">
+  <div class="panel-header">
+    <h1>⚙️ Админ-панель</h1>
+    <div class="user-info">
+      Вы вошли как: <strong id="currentUser">—</strong>
+      <button class="btn-logout" onclick="doLogout()">Выйти</button>
+    </div>
+  </div>
+
+  <div class="panel-container">
+
+    <!-- Раздел: Промты -->
+    <div class="section">
+      <h2>📝 Промты для ИИ-продавца</h2>
+      <p style="color:#6b7a60; font-size:14px; margin-bottom:20px;">
+        Здесь вы обучаете ИИ-агента. Активный промт (отмечен золотой рамкой) используется на сайте для общения с клиентами.
+      </p>
+      <div id="promptsList">
+        <div class="loading">Загрузка промтов...</div>
+      </div>
+    </div>
+
+    <!-- Раздел: Добавить промт -->
+    <div class="section">
+      <h2>➕ Добавить новый промт</h2>
+      <form onsubmit="return addPrompt(event)">
+        <div class="form-group">
+          <label>Название промта</label>
+          <input type="text" id="newPromptTitle" placeholder="Например: Продажа консультации" required>
+        </div>
+        <div class="form-group">
+          <label>Содержание промта</label>
+          <textarea id="newPromptContent" placeholder="Опишите, как ИИ должен общаться с клиентом, какие вопросы задавать, что предлагать..." required></textarea>
+        </div>
+        <button type="submit" class="btn-primary btn-add" id="addBtn">Сохранить промт</button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== Настройки Supabase =====
+const SUPABASE_URL = 'https://umcdedzdxmdkpathocqv.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_xunptSV6VNVMaP_M-8uqzg_efoMyoIt';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentAdmin = null;
+
+// ===== Проверка сессии при загрузке =====
+window.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('adminLogin');
+  if (saved) {
+    currentAdmin = saved;
+    showPanel();
+    loadPrompts();
+  }
+});
+
+// ===== Вход =====
+async function doLogin(e) {
+  e.preventDefault();
+  const btn = document.getElementById('loginBtn');
+  const errBox = document.getElementById('loginError');
+  errBox.classList.remove('show');
+  btn.disabled = true;
+  btn.textContent = 'Проверка...';
+
+  const login = document.getElementById('loginInput').value.trim();
+  const password = document.getElementById('passwordInput').value;
+
+  try {
+    const { data, error } = await sb
+      .from('admins')
+      .select('id, login')
+      .eq('login', login)
+      .eq('password', password)
+      .maybeSingle();
+
+    if (error) throw error;
+    if (!data) {
+      errBox.textContent = '❌ Неверный логин или пароль';
+      errBox.classList.add('show');
+      return false;
+    }
+
+    currentAdmin = data.login;
+    localStorage.setItem('adminLogin', currentAdmin);
+    showPanel();
+    loadPrompts();
+    showToast('✅ Добро пожаловать, ' + currentAdmin + '!');
+  } catch (err) {
+    errBox.textContent = '⚠️ Ошибка соединения: ' + err.message;
+    errBox.classList.add('show');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Войти';
+  }
+  return false;
+}
+
+// ===== Выход =====
+function doLogout() {
+  localStorage.removeItem('adminLogin');
+  currentAdmin = null;
+  document.getElementById('panelScreen').classList.remove('active');
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('loginInput').value = '';
+  document.getElementById('passwordInput').value = '';
+  showToast('👋 Вы вышли из админ-панели');
+}
+
+// ===== Показать панель =====
+function showPanel() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('panelScreen').classList.add('active');
+  document.getElementById('currentUser').textContent = currentAdmin;
+}
+
+// ===== Загрузка промтов =====
+async function loadPrompts() {
+  const list = document.getElementById('promptsList');
+  list.innerHTML = '<div class="loading">Загрузка промтов...</div>';
+
+  try {
+    const { data, error } = await sb
+      .from('prompts')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      list.innerHTML = '<div class="empty-msg">Пока нет ни одного промта. Добавьте первый ниже.</div>';
+      return;
+    }
+
+    list.innerHTML = data.map(p => `
+      <div class="prompt-item ${p.is_active ? 'active' : ''}">
+        <h3>
+          ${escapeHtml(p.title)}
+          ${p.is_active ? '<span class="badge">✓ АКТИВНЫЙ</span>' : ''}
+        </h3>
+        <div class="content">${escapeHtml(p.content)}</div>
+        <div class="prompt-actions">
+          ${!p.is_active ? `<button class="btn-sm btn-activate" onclick="activatePrompt(${p.id})">Сделать активным</button>` : ''}
+          <button class="btn-sm btn-edit" onclick="editPrompt(${p.id})">Редактировать</button>
+          <button class="btn-sm btn-delete" onclick="deletePrompt(${p.id})">Удалить</button>
+        </div>
+      </div>
+    `).join('');
+  } catch (err) {
+    list.innerHTML = '<div class="error-msg show">Ошибка загрузки: ' + err.message + '</div>';
+  }
+}
+
+// ===== Добавить промт =====
+async function addPrompt(e) {
+  e.preventDefault();
+  const btn = document.getElementById('addBtn');
+  btn.disabled = true;
+  btn.textContent = 'Сохранение...';
+
+  const title = document.getElementById('newPromptTitle').value.trim();
+  const content = document.getElementById('newPromptContent').value.trim();
+
+  try {
+    const { error } = await sb.from('prompts').insert({ title, content, is_active: false });
+    if (error) throw error;
+
+    document.getElementById('newPromptTitle').value = '';
+    document.getElementById('newPromptContent').value = '';
+    showToast('✅ Промт добавлен');
+    loadPrompts();
+  } catch (err) {
+    showToast('❌ Ошибка: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Сохранить промт';
+  }
+  return false;
+}
+
+// ===== Активировать промт =====
+async function activatePrompt(id) {
+  try {
+    await sb.from('prompts').update({ is_active: false }).neq('id', 0);
+    const { error } = await sb.from('prompts').update({ is_active: true }).eq('id', id);
+    if (error) throw error;
+    showToast('✅ Промт активирован');
+    loadPrompts();
+  } catch (err) {
+    showToast('❌ Ошибка: ' + err.message);
+  }
+}
+
+// ===== Редактировать промт =====
+async function editPrompt(id) {
+  const { data, error } = await sb.from('prompts').select('*').eq('id', id).single();
+  if (error || !data) { showToast('❌ Не удалось загрузить'); return; }
+
+  const newTitle = prompt('Название промта:', data.title);
+  if (newTitle === null) return;
+  const newContent = prompt('Содержание промта:', data.content);
+  if (newContent === null) return;
+
+  try {
+    const { error: updErr } = await sb.from('prompts')
+      .update({ title: newTitle, content: newContent, updated_at: new Date().toISOString() })
+      .eq('id', id);
+    if (updErr) throw updErr;
+    showToast('✅ Промт обновлён');
+    loadPrompts();
+  } catch (err) {
+    showToast('❌ Ошибка: ' + err.message);
+  }
+}
+
+// ===== Удалить промт =====
+async function deletePrompt(id) {
+  if (!confirm('Удалить этот промт? Действие необратимо.')) return;
+  try {
+    const { error } = await sb.from('prompts').delete().eq('id', id);
+    if (error) throw error;
+    showToast('🗑️ Промт удалён');
+    loadPrompts();
+  } catch (err) {
+    showToast('❌ Ошибка: ' + err.message);
+  }
+}
+
+// ===== Вспомогательные =====
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
+
